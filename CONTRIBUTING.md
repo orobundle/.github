@@ -2,7 +2,7 @@
 
 Contribution guide for the **OroCommerce Extensions**.
 
-- **License:** Oro Partner Source License (OPSL) (see `LICENSE.md`)
+- **License:** OSL-3.0 (see `LICENSE.md`)
 - **Support posture:** AS-IS, no warranty, no SLA
 - **Issue tracking:** GitHub Issues for bugs/features; Partner Portal conversations for partner-only topics
 
@@ -57,18 +57,18 @@ A release tagged `v6.1.Z` is intended for OroCommerce **6.1**.
 - [ ] No secrets, internal URLs, or proprietary assets.
 - [ ] Tests added/updated; CI green.
 - [ ] Docs/README updated (install/usage/BC notes).
-- [ ] License headers kept; new files compatible with Oro Partner Source License (OPSL).
+- [ ] License headers kept; new files compatible with OSL-3.0.
 - [ ] Backport/forward-port labels applied if relevant.
 
 ---
 
 ## Code review & merge
 
-- At least **1–2 approvals** from maintainers depending on impact.
+- At least **1–2 approvals** from maintainers, depending on impact.
 - CI must pass.
 - Maintainers may **squash-merge** for a clean history.
 
-After merge:
+After the merge:
 - Maintainers will **forward-port/backport** to other maintained branches if needed.
 - A **GitHub Release** will be cut with notes that reference compatibility and changes.
 
@@ -83,5 +83,5 @@ After merge:
 ## Licensing of contributions
 
 By submitting a contribution, you agree that:
-- Your contribution is provided under the **Oro Partner Source License (OPSL)**.
+- Your contribution is provided under the **OSL-3.0** license.
 - You have the right to submit the work, and it does not violate third-party rights.
