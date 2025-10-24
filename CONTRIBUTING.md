@@ -34,13 +34,15 @@ A release tagged `v6.1.Z` is intended for OroCommerce **6.1**.
 
 ---
 
-## How to propose a change
+## How to contribute
 
-1. **Open an Issue** describing the bug/feature and target branch (`X.Y`).
-2. **Fork** the repo and create a branch from the appropriate target (e.g., `6.1`):
+1. Optionally: **Open an Issue** describing the bug/feature and target branch (`X.Y`).
+2. **Fork** the repo and create a branch from the appropriate target (e.g., `maintenance/6.1`):
 - feature/short-summary
 - bugfix/short-summary
 - chore/short-summary
+
+    Note: You can add `maintenance-X.Y` suffix to the branch name if the change is related to the maintenance branch only.
 
 3. **Develop**
 - Add tests where meaningful.
