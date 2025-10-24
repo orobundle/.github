@@ -36,22 +36,20 @@ A release tagged `v6.1.Z` is intended for OroCommerce **6.1**.
 
 ## How to contribute
 
-1. Optionally: **Open an Issue** describing the bug/feature and target branch (`X.Y`).
-2. **Fork** the repo and create a branch from the appropriate target (e.g., `maintenance/6.1`):
+1. **Fork** the repo and create a branch from the appropriate target (e.g., `maintenance/6.1`):
 - feature/short-summary
 - bugfix/short-summary
 - chore/short-summary
 
     Note: You can add `maintenance-X.Y` suffix to the branch name if the change is related to the maintenance branch only.
 
-3. **Develop**
+2. **Develop**
 - Add tests where meaningful.
 - Update docs/README when behavior changes.
-4. **Run checks** (tests, static analysis, style).
-5. **Submit a PR**
+3. **Run checks** (tests, static analysis, style).
+4. **Submit a Pull Request (PR)**
 - Target the correct branch (`X.Y` or `main`).
-- Fill out the PR template and checklist (see below).
-- Link the Issue.
+5. Optionally: **Open an Issue** describing the bug/feature and target branch (`X.Y`) and link the Issue to the PR.
 
 ### PR checklist
 
