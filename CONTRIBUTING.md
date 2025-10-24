@@ -48,7 +48,7 @@ A release tagged `v6.1.Z` is intended for OroCommerce **6.1**.
 - Update docs/README when behavior changes.
 3. **Run checks** (tests, static analysis, style).
 4. **Submit a Pull Request (PR)**
-- Target the correct branch (`X.Y` or `main`).
+- Target the correct branch (`maintenance/X.Y` or `main`).
 5. Optionally: **Open an Issue** describing the bug/feature and target branch (`X.Y`) and link the Issue to the PR.
 
 ### PR checklist
