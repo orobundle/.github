@@ -3,7 +3,7 @@
 **PLEASE DON'T DISCLOSE SECURITY-RELATED ISSUES PUBLICLY, [SEE BELOW](#reporting-a-vulnerability).**
 
 ## Supported Versions
-- See `maintenance/X.Y` branches for supported versions of the extension.
+- See `maintenance/X.Y` branches for supported versions.
 
 ## Reporting a Vulnerability
 
