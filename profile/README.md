@@ -72,14 +72,14 @@ Check each repository’s README for its detailed **compatibility matrix**.
 
 ## **Reporting Issues**
 
-Follow `CONTRIBUTING.md` and `SECURITY.md` guidelines.
+Follow [CONTRIBUTING.md](https://github.com/orobundle/.github/blob/main/CONTRIBUTING.md) and [SECURITY.md](https://github.com/orobundle/.github/blob/main/SECURITY.md) guidelines.
 
 ---
 
 ## **Contributing to OroBundle**
 
 We welcome contributions.
-Follow `CONTRIBUTING.md` for contribution rules, code style, branching, and testing.
+Follow [CONTRIBUTING.md](https://github.com/orobundle/.github/blob/main/CONTRIBUTING.md) for contribution rules, code style, branching, and testing.
 
 ---
 
