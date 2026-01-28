@@ -54,7 +54,7 @@ jobs:
         run: composer config repositories.composer composer https://satis.oroinc.com
       - name: Install dependencies
         env:
-          COMPOSER_AUTH: ${{ secrets.composer-auth }}
+          ORO_EXTENSIONS_PRIVATE_COMPOSER_AUTH: ${{ secrets.composer-auth }}
         run: composer install --prefer-dist --no-progress
       - name: Run PHPStan
         run: vendor/bin/phpstan analyse --configuration=${{ inputs.phpstan-config }}
