@@ -16,6 +16,10 @@ on:
         required: false
         type: boolean
         default: true
+    secrets:
+      composer-auth:
+        description: 'Composer authentication JSON (COMPOSER_AUTH)'
+        required: false
 
 jobs:
   phpcs:
@@ -50,6 +54,8 @@ jobs:
         run: composer config repositories.composer composer https://satis.oroinc.com
 
       - name: Install dependencies
+        env:
+          COMPOSER_AUTH: ${{ secrets.composer-auth }}
         run: composer install --prefer-dist --no-progress
 
       - name: Run PHP-CodeSniffer

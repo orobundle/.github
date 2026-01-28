@@ -47,6 +47,10 @@ on:
         required: false
         type: boolean
         default: true
+    secrets:
+      composer-auth:
+        description: 'Composer authentication JSON (COMPOSER_AUTH)'
+        required: false
 
 jobs:
   phpstan:
@@ -56,6 +60,8 @@ jobs:
       php-version: ${{ inputs.php-version }}
       phpstan-config: ${{ inputs.phpstan-config }}
       oro-repository: ${{ inputs.oro-repository }}
+    secrets:
+      composer-auth: ${{ secrets.composer-auth }}
 
   phpcs:
     if: ${{ inputs.run-phpcs }}
@@ -63,6 +69,8 @@ jobs:
     with:
       php-version: ${{ inputs.php-version }}
       oro-repository: ${{ inputs.oro-repository }}
+    secrets:
+      composer-auth: ${{ secrets.composer-auth }}
 
   bc-check:
     if: ${{ inputs.run-bc-check }}
@@ -70,6 +78,8 @@ jobs:
     with:
       php-version: ${{ inputs.php-version }}
       oro-repository: ${{ inputs.oro-repository }}
+    secrets:
+      composer-auth: ${{ secrets.composer-auth }}
 
   phpunit:
     if: ${{ inputs.run-phpunit }}
@@ -78,3 +88,5 @@ jobs:
       php-version: ${{ inputs.php-version }}
       phpunit-config: ${{ inputs.phpunit-config }}
       oro-repository: ${{ inputs.oro-repository }}
+    secrets:
+      composer-auth: ${{ secrets.composer-auth }}
