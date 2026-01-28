@@ -1,0 +1,60 @@
+# Reusable PHPUnit workflow for Oro Extensions
+# orobundle/.github/.github/workflows/phpunit.yml
+
+name: PHPUnit
+
+on:
+  workflow_call:
+    inputs:
+      php-version:
+        description: 'PHP version to use'
+        required: false
+        type: string
+        default: '8.4'
+      phpunit-config:
+        description: 'PHPUnit configuration file'
+        required: false
+        type: string
+        default: 'phpunit.xml.dist'
+      oro-repository:
+        description: 'Whether to configure Oro composer repository'
+        required: false
+        type: boolean
+        default: true
+
+jobs:
+  phpunit:
+    name: PHPUnit
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ inputs.php-version }}
+          extensions: mbstring, intl, pdo, pdo_mysql, pdo_pgsql, xml, dom, curl, json, opcache, zip, gd, soap, bcmath
+          coverage: pcov
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Configure Oro composer repository
+        if: ${{ inputs.oro-repository }}
+        run: composer config repositories.composer composer https://satis.oroinc.com
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Run PHPUnit
+        run: vendor/bin/phpunit --configuration=${{ inputs.phpunit-config }}

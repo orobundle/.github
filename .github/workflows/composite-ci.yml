@@ -1,0 +1,80 @@
+# Composite CI Workflow for Oro Extensions
+# Calls individual reusable workflows for each job
+# orobundle/.github/.github/workflows/composite-ci.yml
+
+name: Oro Extensions CI Composite Workflow
+
+on:
+  workflow_call:
+    inputs:
+      php-version:
+        description: 'PHP version to use'
+        required: false
+        type: string
+        default: '8.4'
+      run-phpstan:
+        description: 'Run PHPStan analysis'
+        required: false
+        type: boolean
+        default: true
+      run-phpcs:
+        description: 'Run PHP CodeSniffer'
+        required: false
+        type: boolean
+        default: true
+      run-bc-check:
+        description: 'Run backward compatibility check'
+        required: false
+        type: boolean
+        default: true
+      run-phpunit:
+        description: 'Run PHPUnit tests'
+        required: false
+        type: boolean
+        default: true
+      phpstan-config:
+        description: 'PHPStan configuration file'
+        required: false
+        type: string
+        default: 'phpstan.neon'
+      phpunit-config:
+        description: 'PHPUnit configuration file'
+        required: false
+        type: string
+        default: 'phpunit.xml.dist'
+      oro-repository:
+        description: 'Whether to configure Oro composer repository'
+        required: false
+        type: boolean
+        default: true
+
+jobs:
+  phpstan:
+    if: ${{ inputs.run-phpstan }}
+    uses: orobundle/.github/.github/workflows/phpstan.yml@main
+    with:
+      php-version: ${{ inputs.php-version }}
+      phpstan-config: ${{ inputs.phpstan-config }}
+      oro-repository: ${{ inputs.oro-repository }}
+
+  phpcs:
+    if: ${{ inputs.run-phpcs }}
+    uses: orobundle/.github/.github/workflows/phpcs.yml@main
+    with:
+      php-version: ${{ inputs.php-version }}
+      oro-repository: ${{ inputs.oro-repository }}
+
+  bc-check:
+    if: ${{ inputs.run-bc-check }}
+    uses: orobundle/.github/.github/workflows/bc-check.yml@main
+    with:
+      php-version: ${{ inputs.php-version }}
+      oro-repository: ${{ inputs.oro-repository }}
+
+  phpunit:
+    if: ${{ inputs.run-phpunit }}
+    uses: orobundle/.github/.github/workflows/phpunit.yml@main
+    with:
+      php-version: ${{ inputs.php-version }}
+      phpunit-config: ${{ inputs.phpunit-config }}
+      oro-repository: ${{ inputs.oro-repository }}
