@@ -16,6 +16,11 @@ on:
         required: false
         type: boolean
         default: true
+      composer-pre-install:
+        description: 'Custom composer command to run before install'
+        required: false
+        type: string
+        default: ''
 
 jobs:
   bc-check:
@@ -50,10 +55,16 @@ jobs:
         if: ${{ inputs.oro-repository }}
         run: composer config repositories.composer composer https://satis.oroinc.com
 
+      - name: Run pre-install command
+        if: ${{ inputs.composer-pre-install != '' }}
+        env:
+          COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
+        run: ${{ inputs.composer-pre-install }}
+
       - name: Install dependencies
         env:
           COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
-        run: composer install --prefer-dist --no-progress --no-dev
+        run: composer install --prefer-dist --no-progress
 
       - name: Install roave/backward-compatibility-check
         run: composer require --dev "roave/backward-compatibility-check:*" --no-interaction -W
