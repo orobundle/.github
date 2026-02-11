@@ -67,7 +67,7 @@ jobs:
         run: composer install --prefer-dist --no-progress
 
       - name: Install roave/backward-compatibility-check
-        run: composer require --dev "roave/backward-compatibility-check:*" --no-interaction -W
+        run: composer global require "roave/backward-compatibility-check:*" --no-interaction
 
       - name: Run Backward Compatibility Check
-        run: vendor/bin/roave-backward-compatibility-check
+        run: ~/.composer/vendor/bin/roave-backward-compatibility-check
