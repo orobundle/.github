@@ -71,7 +71,7 @@ jobs:
           </ruleset>' > phpmd-ruleset.xml
 
       - name: Run PHPMD
-        run: vendor/bin/phpmd ${{ inputs.path }} xml phpmd-ruleset.xml --reportfile phpmd-report.xml --exclude vendor,var,cache,node_modules,build; true
+        run: vendor/bin/phpmd ${{ inputs.path }} xml phpmd-ruleset.xml --reportfile phpmd-report.xml; true
 
       - name: Display PHPMD results
         if: always()
