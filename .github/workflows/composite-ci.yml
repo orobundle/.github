@@ -32,6 +32,11 @@ on:
         required: false
         type: boolean
         default: false
+      phpmd-path:
+        description: 'Path to scan with PHPMD'
+        required: false
+        type: string
+        default: '.'
       run-phpunit:
         description: 'Run PHPUnit tests'
         required: false
@@ -84,6 +89,7 @@ jobs:
     uses: orobundle/.github/.github/workflows/phpmd.yml@main
     with:
       php-version: ${{ inputs.php-version }}
+      path: ${{ inputs.phpmd-path }}
       oro-repository: ${{ inputs.oro-repository }}
     secrets: inherit
 
