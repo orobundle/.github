@@ -55,7 +55,7 @@ jobs:
 
       - name: Install dependencies
         env:
-          ORO_EXTENSIONS_PRIVATE_COMPOSER_AUTH: ${{ secrets.composer-auth }}
+          COMPOSER_AUTH: ${{ secrets.composer-auth }}
         run: composer install --prefer-dist --no-progress
 
       - name: Run PHP-CodeSniffer
