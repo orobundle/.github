@@ -10,10 +10,10 @@ on:
         type: string
         default: '8.4'
       path:
-        description: 'Path to scan'
+        description: 'Path to scan (comma-separated for multiple paths, e.g., src,lib)'
         required: false
         type: string
-        default: '.'
+        default: 'src'
       oro-repository:
         description: 'Whether to configure Oro composer repository'
         required: false
@@ -71,7 +71,7 @@ jobs:
           </ruleset>' > phpmd-ruleset.xml
 
       - name: Run PHPMD
-        run: vendor/bin/phpmd ${{ inputs.path }} xml phpmd-ruleset.xml --reportfile phpmd-report.xml; true
+        run: vendor/bin/phpmd ${{ inputs.path }} xml phpmd-ruleset.xml --reportfile phpmd-report.xml --exclude vendor,var,cache,node_modules,build; true
 
       - name: Display PHPMD results
         if: always()
