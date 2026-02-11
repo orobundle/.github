@@ -21,14 +21,10 @@ on:
         required: false
         type: boolean
         default: true
-      github-app-id:
-        description: 'GitHub App ID for Composer authentication'
-        required: true
-        type: string
     secrets:
-      github-app-private-key:
-        description: 'GitHub App private key for authentication'
-        required: true
+      composer-auth:
+        description: 'Composer authentication JSON (COMPOSER_AUTH)'
+        required: false
 
 jobs:
   phpstan:
@@ -36,14 +32,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Generate GitHub App token
-        id: app-token
-        uses: actions/create-github-app-token@v1
-        with:
-          app-id: ${{ inputs.github-app-id }}
-          private-key: ${{ secrets.github-app-private-key }}
-          owner: ${{ github.repository_owner }}
-
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -71,7 +59,7 @@ jobs:
 
       - name: Install dependencies
         env:
-          COMPOSER_AUTH: '{"github-oauth": {"github.com": "${{ steps.app-token.outputs.token }}"}}'
+          COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
         run: composer install --prefer-dist --no-progress -vvv
 
       - name: Run PHPStan

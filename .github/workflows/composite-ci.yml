@@ -12,10 +12,6 @@ on:
         required: false
         type: string
         default: '8.4'
-      github-app-id:
-        description: 'GitHub App ID for Composer authentication'
-        required: true
-        type: string
       run-phpstan:
         description: 'Run PHPStan analysis'
         required: false
@@ -51,10 +47,6 @@ on:
         required: false
         type: boolean
         default: true
-    secrets:
-      github-app-private-key:
-        description: 'GitHub App private key for authentication'
-        required: true
 
 jobs:
   phpstan:
@@ -64,9 +56,7 @@ jobs:
       php-version: ${{ inputs.php-version }}
       phpstan-config: ${{ inputs.phpstan-config }}
       oro-repository: ${{ inputs.oro-repository }}
-      github-app-id: ${{ inputs.github-app-id }}
-    secrets:
-      github-app-private-key: ${{ secrets.github-app-private-key }}
+    secrets: inherit
 
   phpcs:
     if: ${{ inputs.run-phpcs }}
@@ -74,9 +64,7 @@ jobs:
     with:
       php-version: ${{ inputs.php-version }}
       oro-repository: ${{ inputs.oro-repository }}
-      github-app-id: ${{ inputs.github-app-id }}
-    secrets:
-      github-app-private-key: ${{ secrets.github-app-private-key }}
+    secrets: inherit
 
   bc-check:
     if: ${{ inputs.run-bc-check }}
@@ -84,9 +72,7 @@ jobs:
     with:
       php-version: ${{ inputs.php-version }}
       oro-repository: ${{ inputs.oro-repository }}
-      github-app-id: ${{ inputs.github-app-id }}
-    secrets:
-      github-app-private-key: ${{ secrets.github-app-private-key }}
+    secrets: inherit
 
   phpunit:
     if: ${{ inputs.run-phpunit }}
@@ -95,6 +81,4 @@ jobs:
       php-version: ${{ inputs.php-version }}
       phpunit-config: ${{ inputs.phpunit-config }}
       oro-repository: ${{ inputs.oro-repository }}
-      github-app-id: ${{ inputs.github-app-id }}
-    secrets:
-      github-app-private-key: ${{ secrets.github-app-private-key }}
+    secrets: inherit
