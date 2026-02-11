@@ -16,10 +16,6 @@ on:
         required: false
         type: boolean
         default: true
-    secrets:
-      composer-auth:
-        description: 'Composer authentication JSON (COMPOSER_AUTH)'
-        required: false
 
 jobs:
   bc-check:
