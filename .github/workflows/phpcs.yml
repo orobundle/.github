@@ -49,10 +49,11 @@ jobs:
         if: ${{ inputs.oro-repository }}
         run: composer config repositories.composer composer https://satis.oroinc.com
 
+      - name: Configure Git authentication
+        run: git config --global url."https://x-access-token:${{ secrets.COMPOSER_AUTH }}@github.com/".insteadOf "https://github.com/"
+
       - name: Install dependencies
-        env:
-          COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
-        run: composer install --prefer-dist --no-progress -vvv
+        run: composer install --prefer-dist --no-progress
 
       - name: Run PHP-CodeSniffer
         run: vendor/bin/phpcs --report=checkstyle --report-file=phpcs-report.xml || true
