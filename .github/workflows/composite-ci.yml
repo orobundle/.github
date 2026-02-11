@@ -27,6 +27,11 @@ on:
         required: false
         type: boolean
         default: true
+      run-phpmd:
+        description: 'Run PHP Mess Detector'
+        required: false
+        type: boolean
+        default: false
       run-phpunit:
         description: 'Run PHPUnit tests'
         required: false
@@ -69,6 +74,14 @@ jobs:
   bc-check:
     if: ${{ inputs.run-bc-check }}
     uses: orobundle/.github/.github/workflows/bc-check.yml@main
+    with:
+      php-version: ${{ inputs.php-version }}
+      oro-repository: ${{ inputs.oro-repository }}
+    secrets: inherit
+
+  phpmd:
+    if: ${{ inputs.run-phpmd }}
+    uses: orobundle/.github/.github/workflows/phpmd.yml@main
     with:
       php-version: ${{ inputs.php-version }}
       oro-repository: ${{ inputs.oro-repository }}

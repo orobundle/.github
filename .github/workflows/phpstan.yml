@@ -56,7 +56,7 @@ jobs:
       - name: Install dependencies
         env:
           COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
-        run: composer install --prefer-dist --no-progress -vvv
+        run: composer install --prefer-dist --no-progress
 
       - name: Run PHPStan
         run: vendor/bin/phpstan analyse --configuration=${{ inputs.phpstan-config }}

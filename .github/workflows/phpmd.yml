@@ -1,8 +1,6 @@
-# Reusable PHPUnit workflow for Oro Extensions
-# orobundle/.github/.github/workflows/phpunit.yml
-
-name: PHPUnit
-
+# Reusable PHP Mess Detector workflow for Oro Extensions
+# orobundle/.github/.github/workflows/phpmd.yml
+name: PHP Mess Detector
 on:
   workflow_call:
     inputs:
@@ -11,20 +9,14 @@ on:
         required: false
         type: string
         default: '8.4'
-      phpunit-config:
-        description: 'PHPUnit configuration file'
-        required: false
-        type: string
-        default: 'phpunit.xml.dist'
       oro-repository:
         description: 'Whether to configure Oro composer repository'
         required: false
         type: boolean
         default: true
-
 jobs:
-  phpunit:
-    name: PHPUnit
+  phpmd:
+    name: PHP Mess Detector
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -35,8 +27,8 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ inputs.php-version }}
-          extensions: mbstring, intl, pdo, pdo_mysql, pdo_pgsql, xml, dom, curl, json, opcache, zip, gd, soap, bcmath
-          coverage: pcov
+          extensions: mbstring
+          coverage: none
 
       - name: Get composer cache directory
         id: composer-cache
@@ -58,5 +50,24 @@ jobs:
           COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
         run: composer install --prefer-dist --no-progress
 
-      - name: Run PHPUnit
-        run: vendor/bin/phpunit --configuration=${{ inputs.phpunit-config }}
+      - name: Install PHPMD
+        run: composer require --dev "phpmd/phpmd:*" --no-interaction
+
+      - name: Create PHPMD ruleset
+        run: >
+          echo '<?xml version="1.0"?>
+          <ruleset name="Custom rule set for Oro Projects"
+                   xmlns="http://pmd.sf.net/ruleset/1.0.0"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0 http://pmd.sf.net/ruleset_xml_schema.xsd"
+                   xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd">
+              <description>Custom rule set that is used to check the code of the Oro Projects...</description>
+              <rule ref="rulesets/codesize.xml"/>
+          </ruleset>' > phpmd-ruleset.xml
+
+      - name: Run PHPMD
+        run: vendor/bin/phpmd src xml phpmd-ruleset.xml --reportfile phpmd-report.xml; true
+
+      - name: Display PHPMD results
+        if: always()
+        run: test -f phpmd-report.xml && cat phpmd-report.xml
