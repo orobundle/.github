@@ -27,6 +27,11 @@ on:
         required: false
         type: boolean
         default: true
+      bc-check-version:
+        description: 'Version of roave/backward-compatibility-check to use'
+        required: false
+        type: string
+        default: '*'
       run-phpmd:
         description: 'Run PHP Mess Detector'
         required: false
@@ -82,6 +87,7 @@ jobs:
     with:
       php-version: ${{ inputs.php-version }}
       oro-repository: ${{ inputs.oro-repository }}
+      bc-check-version: ${{ inputs.bc-check-version }}
     secrets: inherit
 
   phpmd:
