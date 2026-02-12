@@ -26,7 +26,7 @@ on:
         description: 'Run backward compatibility check'
         required: false
         type: boolean
-        default: true
+        default: false
       bc-check-version:
         description: 'Version of roave/backward-compatibility-check to use'
         required: false
