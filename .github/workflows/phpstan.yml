@@ -59,4 +59,11 @@ jobs:
         run: composer install --prefer-dist --no-progress
 
       - name: Run PHPStan
-        run: vendor/bin/phpstan analyse --configuration=${{ inputs.phpstan-config }}
+        run: vendor/bin/phpstan analyse --configuration=${{ inputs.phpstan-config }} --error-format=checkstyle > phpstan-checkstyle.xml || true
+
+      - name: Annotate PHPStan results in PR
+        if: always()
+        uses: staabm/annotate-pull-request-from-checkstyle-action@v1
+        with:
+          files: phpstan-checkstyle.xml
+          notices-as-warnings: true
