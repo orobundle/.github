@@ -8,7 +8,7 @@ on:
         description: 'PHP version to use'
         required: false
         type: string
-        default: '8.4'
+        default: '8.3'
       oro-repository:
         description: 'Whether to configure Oro composer repository'
         required: false
@@ -66,8 +66,11 @@ jobs:
           </ruleset>' > phpmd-ruleset.xml
 
       - name: Run PHPMD
-        run: vendor/bin/phpmd . xml phpmd-ruleset.xml --reportfile phpmd-report.xml --exclude vendor; true
+        run: vendor/bin/phpmd . checkstyle phpmd-ruleset.xml --exclude vendor,Tests > phpmd-checkstyle.xml || true
 
-      - name: Display PHPMD results
+      - name: Annotate PHPMD results in PR
         if: always()
-        run: test -f phpmd-report.xml && cat phpmd-report.xml
+        uses: staabm/annotate-pull-request-from-checkstyle-action@v1
+        with:
+          files: phpmd-checkstyle.xml
+          notices-as-warnings: true
