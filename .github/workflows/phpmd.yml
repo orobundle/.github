@@ -51,7 +51,7 @@ jobs:
         run: composer install --prefer-dist --no-progress
 
       - name: Install PHPMD
-        run: composer require --dev "phpmd/phpmd:^2.15" "pdepend/pdepend:^2.17" --no-interaction
+        run: composer require --dev "phpmd/phpmd:*" --no-interaction
 
       - name: Create PHPMD ruleset
         run: >
