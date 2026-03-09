@@ -66,25 +66,8 @@ jobs:
           </ruleset>' > phpmd-ruleset.xml
 
       - name: Run PHPMD
-        run: |
-          vendor/bin/phpmd . checkstyle phpmd-ruleset.xml --exclude vendor,Tests --ignore-errors-on-exit --reportfile phpmd-checkstyle.xml || true
+        run: vendor/bin/phpmd . xml phpmd-ruleset.xml --reportfile phpmd-report.xml --exclude vendor; true
 
-          # Sanitize XML: remove malformed error entries from parse failures (they use msg= instead of message=)
-          if [ -f phpmd-checkstyle.xml ]; then
-            sed -i '/<error[^>]*msg="/d' phpmd-checkstyle.xml
-            # Remove empty file entries left behind
-            sed -i '/<file name="">/,/<\/file>/d' phpmd-checkstyle.xml
-          fi
-
-          # Ensure valid XML for annotation action
-          if [ ! -f phpmd-checkstyle.xml ] || ! xmllint --noout phpmd-checkstyle.xml 2>/dev/null; then
-            echo '<?xml version="1.0" encoding="UTF-8"?><checkstyle version="3.5.3"></checkstyle>' > phpmd-checkstyle.xml
-            echo "::warning::PHPMD produced invalid XML output, possibly due to unsupported PHP syntax"
-          fi
-
-      - name: Annotate PHPMD results in PR
+      - name: Display PHPMD results
         if: always()
-        uses: staabm/annotate-pull-request-from-checkstyle-action@v1
-        with:
-          files: phpmd-checkstyle.xml
-          notices-as-warnings: true
+        run: test -f phpmd-report.xml && cat phpmd-report.xml
