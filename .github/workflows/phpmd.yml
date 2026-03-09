@@ -67,9 +67,17 @@ jobs:
 
       - name: Run PHPMD
         run: |
-          vendor/bin/phpmd . checkstyle phpmd-ruleset.xml --exclude vendor,Tests --ignore-errors-on-exit > phpmd-checkstyle.xml 2>&1 || true
+          vendor/bin/phpmd . checkstyle phpmd-ruleset.xml --exclude vendor,Tests --ignore-errors-on-exit --reportfile phpmd-checkstyle.xml || true
+
+          # Sanitize XML: remove malformed error entries from parse failures (they use msg= instead of message=)
+          if [ -f phpmd-checkstyle.xml ]; then
+            sed -i '/<error[^>]*msg="/d' phpmd-checkstyle.xml
+            # Remove empty file entries left behind
+            sed -i '/<file name="">/,/<\/file>/d' phpmd-checkstyle.xml
+          fi
+
           # Ensure valid XML for annotation action
-          if ! xmllint --noout phpmd-checkstyle.xml 2>/dev/null; then
+          if [ ! -f phpmd-checkstyle.xml ] || ! xmllint --noout phpmd-checkstyle.xml 2>/dev/null; then
             echo '<?xml version="1.0" encoding="UTF-8"?><checkstyle version="3.5.3"></checkstyle>' > phpmd-checkstyle.xml
             echo "::warning::PHPMD produced invalid XML output, possibly due to unsupported PHP syntax"
           fi
