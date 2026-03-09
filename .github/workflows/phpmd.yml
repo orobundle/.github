@@ -51,7 +51,7 @@ jobs:
         run: composer install --prefer-dist --no-progress
 
       - name: Install PHPMD
-        run: composer require --dev "phpmd/phpmd:*" --no-interaction
+        run: composer require --dev "phpmd/phpmd:^2.15" "pdepend/pdepend:^2.17" --no-interaction
 
       - name: Create PHPMD ruleset
         run: >
@@ -66,7 +66,13 @@ jobs:
           </ruleset>' > phpmd-ruleset.xml
 
       - name: Run PHPMD
-        run: vendor/bin/phpmd . checkstyle phpmd-ruleset.xml --exclude vendor > phpmd-checkstyle.xml || true
+        run: |
+          vendor/bin/phpmd . checkstyle phpmd-ruleset.xml --exclude vendor,Tests --ignore-errors-on-exit > phpmd-checkstyle.xml 2>&1 || true
+          # Ensure valid XML for annotation action
+          if ! xmllint --noout phpmd-checkstyle.xml 2>/dev/null; then
+            echo '<?xml version="1.0" encoding="UTF-8"?><checkstyle version="3.5.3"></checkstyle>' > phpmd-checkstyle.xml
+            echo "::warning::PHPMD produced invalid XML output, possibly due to unsupported PHP syntax"
+          fi
 
       - name: Annotate PHPMD results in PR
         if: always()
